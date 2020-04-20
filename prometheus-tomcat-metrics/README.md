@@ -1,6 +1,6 @@
 ## Problem - Missing tomcat metrics
 
-I am using the spring boot parent **2.2.0.RELEASE** and the metrics for tomcat threads will disappear.
+I am using the Spring Boot parent **2.2.0.RELEASE** and the metrics for tomcat threads will disappear.
 
 The missing metrics: *tomcat_threads_current_threads*, *tomcat_threads_config_max_threads*, *tomcat_threads_busy_threads*
 
@@ -193,7 +193,7 @@ jvm_buffer_count_buffers{id="mapped",} 0.0
 process_cpu_usage 0.0
 ```
 
-However, when I changed the spring boot parent version to **2.1.3.RELEASE**, the metrics get back.
+However, when I changed the Spring Boot parent version to **2.1.3.RELEASE**, the metrics get back.
 ```
 # HELP jvm_memory_committed_bytes The amount of memory in bytes that is committed for the Java virtual machine to use
 # TYPE jvm_memory_committed_bytes gauge
@@ -350,4 +350,13 @@ tomcat_global_received_bytes_total{name="http-nio-8080",} 0.0
 # HELP tomcat_global_sent_bytes_total  
 # TYPE tomcat_global_sent_bytes_total counter
 tomcat_global_sent_bytes_total{name="http-nio-8080",} 0.0
+```
+
+## Solved ##
+Tomcat's MBean Registry will be disabled by default from Spring Boot version **2.2.0.RELEASE**.
+https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.2.0-M4-Release-Notes
+
+Enable by adding the configuration 
+```yaml
+server.tomcat.mbeanregistry.enabled=true
 ```
